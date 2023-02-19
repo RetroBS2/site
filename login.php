@@ -39,7 +39,7 @@
 <div class="login">    
         <form action="login.php" method="POST">
             <fieldset>
-                <legend>Registro</legend>
+                <legend>Login</legend>
                 <div class="inputBox">   
                     <label class="labelInput" for="email">Email:</label>
                     <input type="email" name="email" id="email" class="inputUser">
