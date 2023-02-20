@@ -58,7 +58,7 @@ if (!isset($_SESSION['email'])) {
         </li>
 
         <li class="nav-item">
-          <a href="#" class="nav-link">Catalogo</a>
+          <a href="catalogo.php" class="nav-link">Catalogo</a>
         </li>
 
         <li class="nav-item">

@@ -1,0 +1,53 @@
+/* ================================================================== */
+/* Catalogo */
+
+  .conteudo{
+    margin: 5rem;
+    max-width: 900rem;
+  }
+
+  .titulocat{
+    background-image: url('../img/italyflag.jpg');
+    text-align: center;
+    color: var(--vermelho);
+    margin-bottom: 1rem;
+  }
+
+  .lista{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+
+  .produto{
+      width: 22rem;
+      border: 2px solid var(--dark);
+      padding: 1rem;
+      background-color: var(--dark);
+      margin: 0.5rem;
+  }
+    
+  .produto:hover {
+    box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.6);
+  }
+
+  .imgproduto {
+    height: 12rem;
+    width: 100%;
+    border: 2px solid var(--vermelho) ;
+  }
+
+  
+
+  .nomeProduto{
+    color: var(--verde);
+  }
+  
+  .preco{
+    color: white;
+  }
+
+  .botao:hover{
+    background-color: #bd3f48;
+  }

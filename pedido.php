@@ -13,6 +13,7 @@ session_start()
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pedido.css">
 </head>
 
 <body>
@@ -29,7 +30,7 @@ session_start()
         </li>
 
         <li class="nav-item">
-          <a href="#" class="nav-link">Catalogo</a>
+          <a href="catalogo.php" class="nav-link">Catalogo</a>
         </li>
 
         <li class="nav-item active">
@@ -72,25 +73,34 @@ session_start()
 
   <div class="container">
     <div class="row my-4">
-      <div class="col-sm-6 offset-sm-3 registro">
-        <form action="fazerpedido.php" method="POST">
+      <div class="col-sm-6 offset-sm-3">
+        <h1 class="tituloped">Pedido</h1>
+        <table class="table table-dark table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                  <th>Imagem</th>
+                  <th>Codigo do Produto</th>
+                  <th>Nome do Produto</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td width="20%"><img src="img/spaghetti.jpg" alt="" width="100%"></td>
+                  <td>#5826</td>
+                  <td>Spaghetti</td>
+                </tr>
 
-          <h3 class="tituloRegistro">Pedido</h3>
-          <div class="my-5">
-            <label class="labelText">Codigo Produto:</label>
-            <input type="text" name="codigoProduto" id="email" class="form-control inputForm">
-          </div>
 
-          <div class="my-5">
-            <label class="labelText">Nome Produto:</label>
-            <input type="text" name="nomeProduto" id="senha" class="form-control inputForm">
-          </div>
+                <tr>
+                  <td width="20%"><img src="img/ravioli.jpg" alt="" width="100%"></td>
+                  <td>#2521</td>
+                  <td>Ravioli</td>
+                </tr>
 
-          <div class="my-5">
-            <input type="submit" value="Fazer Pedido" name="submit" class="botao">
-          </div>
 
-        </form>
+              </tbody>  
+        </table>
         <?php if (isset($_SESSION['confirmar'])) : ?>
           <div class="alert alert-danger text-center">
             <?= $_SESSION['confirmar'] ?>
