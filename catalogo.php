@@ -85,7 +85,8 @@
                     <div class="descicao">
                         <h5 class="nomeProduto"><?= $produto['nomeproduto'];?></h5>
                         <p class="preco">R$ <?= $produto['preco'];?></p>
-                        <a href=""><button class="botao">Adicionar ao Pedido</button></a>
+                        <?php $subistituir=str_replace('#', '', $produto['codproduto']);?>
+                        <a href="adicionaraocarrinho.php?id=<?=$subistituir?>"><button class="botao">Adicionar ao Pedido</button></a>
                     </div>
                 </div>
                 <?php endforeach;?>

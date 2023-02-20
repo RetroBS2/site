@@ -75,6 +75,8 @@ session_start()
     <div class="row my-4">
       <div class="col-sm-6 offset-sm-3">
         <h1 class="tituloped">Pedido</h1>
+        
+        <?php if(isset($_SESSION['pedido'])):?>
         <table class="table table-dark table-striped table-hover table-bordered">
             <thead>
                 <tr>
@@ -85,28 +87,19 @@ session_start()
               </thead>
               <tbody>
                 
+              <?php foreach($_SESSION['pedido'] as $lista):?>
                 <tr>
-                  <td width="20%"><img src="img/spaghetti.jpg" alt="" width="100%"></td>
-                  <td>#5826</td>
-                  <td>Spaghetti</td>
+                  <td width="20%"><img src="<?=$lista['caminho']?>" alt="" width="100%"></td>
+                  <td><?=$lista['codproduto']?></td>
+                  <td><?=$lista['nomeproduto']?></td>
                 </tr>
-
-
-                <tr>
-                  <td width="20%"><img src="img/ravioli.jpg" alt="" width="100%"></td>
-                  <td>#2521</td>
-                  <td>Ravioli</td>
-                </tr>
-
-
+              <?php endforeach;?>
               </tbody>  
         </table>
-        <?php if (isset($_SESSION['confirmar'])) : ?>
-          <div class="alert alert-danger text-center">
-            <?= $_SESSION['confirmar'] ?>
-            <?php unset($_SESSION['confirmar']); ?>
-          </div>
-        <?php endif; ?>
+        <?php else:?>
+          <h1>LISTA DE PEDIDO VAZIO :/</h1>
+        <?php endif;?>
+        
       </div>
     </div>
   </div>
