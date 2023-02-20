@@ -51,7 +51,7 @@
                 </div>
                 <br><br><br>
                 <div class="inputBox">
-                    <input type="submit" value="Registre-se" name="submit" id="submit">
+                    <input type="submit" value="Entrar" name="submit" id="submit">
                 </div>
             </fieldset>
         </form>
