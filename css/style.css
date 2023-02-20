@@ -1,0 +1,83 @@
+:root {
+    --verde:    #009246;
+    --branco:   #ffffff;
+    --vermelho: #ce2b37;
+    --dark:     #36454F;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: linear-gradient(to right, var(--verde), var(--branco), var(--vermelho));
+    font: var(--branco);
+}
+
+a {
+    font-size: 1.2rem;
+}
+
+.titulo {
+    font-size: 2.5rem;
+    margin-left: 1rem;
+}
+
+.icone {
+    color: var(--branco);
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+
+.cabecalho {
+    background-color: var(--dark);
+}
+
+.rodape {
+    background-color: var(--dark);
+    color: var(--branco);
+}
+
+.active {
+    text-decoration: underline;
+}
+
+.tituloRegistro{
+    color: var(--branco);
+    font-size: 2.5rem;
+    text-align: center;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.inputForm{
+    border: 1px solid var(--vermelho);
+}
+
+.labelText{
+    color: var(--branco);
+}
+
+.registro{
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 0.5rem;
+    min-height: 11rem;
+}
+
+.botao{
+    background-color: var(--vermelho);
+    color: var(--branco);
+    height: 3rem;
+    width: 100%;
+    border: none;
+    border-radius: 1rem;
+}
+
+.botao{
+    background-color: #c03740;
+}
+
+/* 
+    0, 146, 70 verde
+    206, 43, 55 vermelho
+    */
