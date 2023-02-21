@@ -1,22 +1,29 @@
 <?php
 session_start();
 include_once('config.php');
-if((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true))
-{
-    unset($_SESSION['email']);
-    unset($_SESSION['senha']);
+if (!isset($_SESSION['email'])) {
     header('Location: index.php');
 }
-if(isset($_POST['submit'])){
-    $codigoPedido = uniqid();
-    $usuarioID = $_SESSION['id'];
-    $codigoProduto = $_POST['codigoProduto'];
-    $nomeProduto = $_POST['nomeProduto'];
+if (isset($_POST['submit'])) {
+    foreach ($_SESSION['pedido'] as $item) {
+        $valor = $item['quantidade'] * $item['preco'];
 
-    $sql = "INSERT INTO pedido VALUE ('$codigoPedido', '$usuarioID', '$codigoProduto', '$nomeProduto', now())";
-    $conexao->query($sql);
+        $codProduto = $_SESSION['codpedido'];
+        $usuarioID = $_SESSION['id'];
+        $codigoProduto = $item['codproduto'];
+        $nomeProduto = $item['nomeproduto'];
+        $Quantidade = $item['quantidade'];
+        $preço = $valor;
+
+        $sql = "INSERT INTO pedido VALUE ('$codProduto', '$usuarioID', '$codigoProduto', '$nomeProduto', '$Quantidade', '$preco', now())";
+        $conexao->query($sql);
+    }
     $_SESSION['confirmar'] = 'Pedido registrado com sucesso!';
+    unset($_SESSION['pedido']);
+    unset($_SESSION['codpedido']);
     header('Location: pedido.php');
+} else {
+    header('Location: index.php');
 }
 
 ?>
@@ -26,5 +33,7 @@ if(isset($_POST['submit'])){
     usuarioID
     codigoProduto
     nomeProduto
+    Quantidade
+    preço
     data
  -->
