@@ -1,8 +1,18 @@
 <?php
-    session_start(); 
-    include_once('config.php');
-    $sql = 'SELECT * FROM catalogo';
-    $catalogo = $conexao->query($sql);
+
+session_start();
+if (!isset($_SESSION['email'])) {
+  header('Location: index.php');
+}
+include_once('config.php');
+$id = $_SESSION['id'];
+$sql = "SELECT codigoPedido, usuarioID, data, COUNT(codigoPedido) AS total 
+    FROM pedido WHERE usuarioID='$id'
+    GROUP BY codigoPedido
+    ORDER BY data DESC";
+
+$pedidos = $conexao->query($sql);
+
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -16,7 +26,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/catalogo.css">
+  <link rel="stylesheet" href="css/pedido.css">
 </head>
 
 <body>
@@ -32,7 +42,7 @@
           <a href="index.php" class="nav-link">Home</a>
         </li>
 
-        <li class="nav-item active">
+        <li class="nav-item">
           <a href="catalogo.php" class="nav-link">Catalogo</a>
         </li>
 
@@ -63,7 +73,7 @@
           </li>
         <?php else : ?>
           <li class="nav-item">
-            <a href="pedidosregistrado.php" class="nav-link">
+            <a href="pedidosregistrado.php" class="nav-link active">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill nav-item" viewBox="0 0 16 16">
                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
               </svg>
@@ -84,42 +94,55 @@
       </ul>
     </div>
   </nav>
-        <div class="conteudo">
-            <div class="titulocat">
-                <h1>Catalogo</h1>
-            </div>
 
-            <div class="lista">
-                <?php foreach($catalogo as $produto):?>
-                <div class="produto">
-                    <img src="<?= $produto['caminho'];?>" alt="" class="imgproduto">
-                    <div class="descicao">
-                        <h5 class="nomeProduto"><?= $produto['nomeproduto'];?></h5>
-                        <p class="preco">R$ <?= number_format($produto['preco'],2,",",".");?></p>
-                        <?php $subistituir=str_replace('#', '', $produto['codproduto']);?>
-                        <a href="adicionaraocarrinho.php?id=<?=$subistituir?>"><button class="botao">Adicionar ao Pedido</button></a>
-                    </div>
-                </div>
-                <?php endforeach;?>
+  <div class="container">
+    <div class="row my-4">
+      <div class="col-sm-6 offset-sm-3">
+        <h1 class="tituloped">Meus Pedidos</h1>
 
-            </div>
+        <table class="table table-dark table-striped table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>Codigo do Pedido</th>
+              <th>Total de Itens</th>
+              <th>Horário</th>
+              <th>Detalhes</th>
+            </tr>
+          </thead>
+          <tbody>
 
+            <?php foreach ($pedidos as $pedido) : ?>
+              <tr>
+                <td><?= $pedido['codigoPedido'] ?></td>
+                <td><?= $pedido['total'] ?></td>
+                <td><?= $pedido['data'] ?></td>
+                <td><a href="descricaodopedido.php?pedido=<?= $pedido['codigoPedido'] ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill icone" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                    </svg>
+                  </a></td>
+              </tr>
+
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container-fluid fixed-bottom rodape">
+      <div class="row">
+        <div class="col-12 text-center p-3">
+          <?= 'Pancia Piena (1.0.0) &copy;' . date('Y') ?>
         </div>
+      </div>
+    </div>
+  </footer>
 
-   
-    <footer>
-        <div class="container-fluid fixed-bottom rodape">
-            <div class="row">
-                <div class="col-12 text-center p-3">
-                    <?= 'Pancia Piena (1.0.0) &copy;' . date('Y') ?>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 
 </html>

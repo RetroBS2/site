@@ -1,8 +1,26 @@
 <?php
-    session_start(); 
-    include_once('config.php');
-    $sql = 'SELECT * FROM catalogo';
-    $catalogo = $conexao->query($sql);
+session_start();
+include_once('config.php');
+$soma = 0;
+if(!isset($_SESSION['email'])){
+    header('Location: index.php');
+}
+if(!empty($_GET['pedido'])){
+    $pedido = $_GET['pedido'];
+    $sql = "SELECT * FROM pedido WHERE codigoPedido = '$pedido'";
+    $detalhe = $conexao->query($sql);
+    $confimar = mysqli_fetch_assoc($detalhe);
+    $conf = $confimar['usuarioID'];
+ 
+    if($conf !== $_SESSION['id']){
+        header('Location: index.php');
+    }
+} else {
+    header('Location: index.php');
+}
+
+
+
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -16,7 +34,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/catalogo.css">
+  <link rel="stylesheet" href="css/pedido.css">
 </head>
 
 <body>
@@ -32,7 +50,7 @@
           <a href="index.php" class="nav-link">Home</a>
         </li>
 
-        <li class="nav-item active">
+        <li class="nav-item">
           <a href="catalogo.php" class="nav-link">Catalogo</a>
         </li>
 
@@ -63,7 +81,7 @@
           </li>
         <?php else : ?>
           <li class="nav-item">
-            <a href="pedidosregistrado.php" class="nav-link">
+            <a href="pedidosregistrado.php" class="nav-link  active">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill nav-item" viewBox="0 0 16 16">
                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
               </svg>
@@ -84,42 +102,65 @@
       </ul>
     </div>
   </nav>
-        <div class="conteudo">
-            <div class="titulocat">
-                <h1>Catalogo</h1>
-            </div>
 
-            <div class="lista">
-                <?php foreach($catalogo as $produto):?>
-                <div class="produto">
-                    <img src="<?= $produto['caminho'];?>" alt="" class="imgproduto">
-                    <div class="descicao">
-                        <h5 class="nomeProduto"><?= $produto['nomeproduto'];?></h5>
-                        <p class="preco">R$ <?= number_format($produto['preco'],2,",",".");?></p>
-                        <?php $subistituir=str_replace('#', '', $produto['codproduto']);?>
-                        <a href="adicionaraocarrinho.php?id=<?=$subistituir?>"><button class="botao">Adicionar ao Pedido</button></a>
-                    </div>
-                </div>
-                <?php endforeach;?>
+  <div class="container">
+    <div class="row my-4">
+      <div class="col-sm-6 offset-sm-3">
+        <h1 class="tituloped">Pedido</h1>
 
-            </div>
+          <h3>Código do pedido: <?= $_GET['pedido'] ?></h3>
+          <table class="table table-dark table-striped table-hover table-bordered">
+            <thead>
+              <tr>
+                <th>Imagem</th>
+                <th>Codigo do Produto</th>
+                <th>Nome do Produto</th>
+                <th>Quantidade</th>
+                <th>Preço</th>
+              </tr>
+            </thead>
+            <tbody>
 
+              <?php foreach ($detalhe as $lista) : ?>
+                <tr>
+                <?php 
+                    $cod = $lista['codigoProduto'];
+                    $sql = "SELECT * FROM catalogo WHERE codproduto = '$cod'";
+                    $produto = $conexao->query($sql);
+                    $produto = mysqli_fetch_assoc($produto);
+                ?>
+                  <td width="20%"><img src="<?= $produto['caminho'] ?>" alt="" width="100%"></td>
+                  <td><?= $lista['codigoProduto'] ?></td>
+                  <td><?= $lista['nomeProduto'] ?></td>
+                  <td><?= $lista['quantidade'] ?></td>
+                  <td>R$ <?= number_format($lista['preco'], 2, ",", ".") ?></td>
+                </tr>
+                <?php $soma += $lista['preco'] ?>
+              <?php endforeach; ?>
+              <tr>
+                <td colspan="3" class="table-active">Valor total: </td>
+                <td colspan="2" class="table-active">R$ <?= number_format($soma, 2, ",", "."); ?></td>
+              </tr>
+            </tbody>
+          </table>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container-fluid fixed-bottom rodape">
+      <div class="row">
+        <div class="col-12 text-center p-3">
+          <?= 'Pancia Piena (1.0.0) &copy;' . date('Y') ?>
         </div>
+      </div>
+    </div>
+  </footer>
 
-   
-    <footer>
-        <div class="container-fluid fixed-bottom rodape">
-            <div class="row">
-                <div class="col-12 text-center p-3">
-                    <?= 'Pancia Piena (1.0.0) &copy;' . date('Y') ?>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 
 </html>

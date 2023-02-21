@@ -1,25 +1,7 @@
 <?php
-include_once('config.php');
-if (isset($_POST['submit'])) {
-    $nome = $_POST['nome'];
-    $endereco = $_POST['endereco'];
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
-    $confsenha = $_POST['confsenha'];
-
-    $sql = "SELECT * FROM usuario where email='$email'";
-    $result = $conexao->query($sql);
-    if ($result->num_rows > 0) {
-        echo "<script>alert('Email já existente')</script>";
-    } else {
-        if ($senha != $confsenha) {
-            echo "<script>alert('As senhas não são compatíveis')</script>";
-        } else {
-            $sql = "INSERT INTO usuario VALUE (DEFAULT, '$nome', '$email', '$senha', '$endereco')";
-            $result = $conexao->query($sql);
-            header('Location: login.php');
-        }
-    }
+session_start();
+if ((isset($_SESSION['email']) == true) and (isset($_SESSION['senha']) == true)) {
+  header('Location: index.php');
 }
 ?>
 <!doctype html>
@@ -80,7 +62,7 @@ if (isset($_POST['submit'])) {
           </li>
         <?php else : ?>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="pedidosregistrado.php" class="nav-link">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill nav-item" viewBox="0 0 16 16">
                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
               </svg>
@@ -101,59 +83,67 @@ if (isset($_POST['submit'])) {
       </ul>
     </div>
   </nav>
-    <div class="container">
-        <div class="row my-4">
-            <div class="col-sm-6 offset-sm-3 registro">
-                <form action="registro.php" method="POST">
-                        <h3 class="tituloRegistro">REGISTRO</h3>
-                     
-                        <div class="my-3">
-                            <label class="labelText" for="nome">Nome:</label>
-                            <input type="text" name="nome" id="nome" class="form-control inputForm" required>
-                        </div>
+  <div class="container">
+    <div class="row my-4">
+      <div class="col-sm-6 offset-sm-3 registro">
+        <form action="registrar.php" method="POST">
+          <h3 class="tituloRegistro">REGISTRO</h3>
 
-                        <div class="my-3">
-                            <label class="labelText" for="endereco">Endereço:</label>
-                            <input type="text" name="endereco" class="form-control inputForm" required>
-                        </div>
-                    
-                        <div class="my-3">
-                            <label class="labelText" for="email">Email:</label>
-                            <input type="email" name="email" id="email" class="form-control inputForm" required>
-                        </div>
-                    
-                        <div class="my-3">
-                            <label class="labelText" for="Senha">Senha:</label>
-                            <input type="password" name="senha" id="senha" class="form-control inputForm" required>
-                        </div>
-                    
-                        <div class="my-3">
-                            <label class="labelText" for="confsenha">Confirme a Senha:</label>
-                            <input type="password" name="confsenha" id="confsenha" class="form-control inputForm" required>
-                        </div>
-                    
-                        <div class="my-3">
-                            <input type="submit" value="Registre-se" name="submit" class="botao">
-                        </div>
-                    
-                </form>
+          <div class="my-3">
+            <label class="labelText" for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome" class="form-control inputForm" required>
+          </div>
 
-            </div>
-        </div>
+          <div class="my-3">
+            <label class="labelText" for="endereco">Endereço:</label>
+            <input type="text" name="endereco" class="form-control inputForm" required>
+          </div>
+
+          <div class="my-3">
+            <label class="labelText" for="email">Email:</label>
+            <input type="email" name="email" id="email" class="form-control inputForm" required>
+          </div>
+
+          <div class="my-3">
+            <label class="labelText" for="Senha">Senha:</label>
+            <input type="password" name="senha" id="senha" class="form-control inputForm" required>
+          </div>
+
+          <div class="my-3">
+            <label class="labelText" for="confsenha">Confirme a Senha:</label>
+            <input type="password" name="confsenha" id="confsenha" class="form-control inputForm" required>
+          </div>
+
+          <div class="my-3">
+            <input type="submit" value="Registre-se" name="submit" class="botao">
+          </div>
+
+        </form>
+
+        <?php if (isset($_SESSION['err'])) : ?>
+          <div class="alert alert-danger text-center">
+            <?= $_SESSION['err'] ?>
+            <?php unset($_SESSION['err']); ?>
+          </div>
+        <?php endif; ?>
+
+      </div>
     </div>
-    <footer>
-        <div class="container-fluid fixed-bottom rodape">
-            <div class="row">
-                <div class="col-12 text-center p-3">
-                    <?= 'Pancia Piena (1.0.0) &copy;' . date('Y') ?>
-                </div>
-            </div>
-        </div>
-    </footer>
+  </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <footer>
+    <div class="container-fluid fixed-bottom rodape">
+      <div class="row">
+        <div class="col-12 text-center p-3">
+          <?= 'Pancia Piena (1.0.0) &copy;' . date('Y') ?>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 
 </html>

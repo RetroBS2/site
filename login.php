@@ -5,30 +5,6 @@ if((isset($_SESSION['email']) == true) and (isset($_SESSION['senha']) == true))
 {
     header('Location: index.php');
 }
-if (!isset($_SESSION['email'])) {
-  if (isset($_POST['submit']) && !empty($_POST['email'] && !empty($_POST['senha']))) {
-    if (isset($_POST['submit'])) {
-      $email = $_POST['email'];
-      $senha = $_POST['senha'];
-
-      $sql = "SELECT * FROM usuario where email='$email' and senha='$senha'";
-      $result = $conexao->query($sql);
-      while ($usualog = mysqli_fetch_assoc($result)) {
-        $nome = $usualog['nome'];
-        $id = $usualog['id'];
-      }
-      if ($result->num_rows > 0) {
-        $_SESSION['id'] = $id;
-        $_SESSION['nome'] = $nome;
-        $_SESSION['email'] = $email;
-        $_SESSION['senha'] = $senha;
-        header('Location: index.php');
-      } else {
-        echo "<script>alert('Login Inválido')</script>";
-      }
-    }
-  }
-}
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -114,7 +90,7 @@ if (!isset($_SESSION['email'])) {
   <div class="container">
     <div class="row my-4">
       <div class="col-sm-6 offset-sm-3 registro">
-        <form action="login.php" method="POST">
+        <form action="logar.php" method="POST">
           <h3 class="tituloRegistro">Login</h3>
 
           <div class="my-5">
@@ -132,8 +108,14 @@ if (!isset($_SESSION['email'])) {
           </div>
 
         </form>
-
+        <?php if(isset($_SESSION['erro'])) : ?>
+          <div class="alert alert-danger text-center">
+            <?= $_SESSION['erro']?>
+            <?php unset($_SESSION['erro']);?>
+          </div>
+        <?php endif; ?>
       </div>
+      
       <footer>
         <div class="container-fluid fixed-bottom rodape">
           <div class="row">

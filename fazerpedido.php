@@ -7,14 +7,12 @@ if (!isset($_SESSION['email'])) {
 if (isset($_POST['submit'])) {
     foreach ($_SESSION['pedido'] as $item) {
         $valor = $item['quantidade'] * $item['preco'];
-
         $codProduto = $_SESSION['codpedido'];
         $usuarioID = $_SESSION['id'];
         $codigoProduto = $item['codproduto'];
         $nomeProduto = $item['nomeproduto'];
         $Quantidade = $item['quantidade'];
-        $preço = $valor;
-
+        $preco = $valor;
         $sql = "INSERT INTO pedido VALUE ('$codProduto', '$usuarioID', '$codigoProduto', '$nomeProduto', '$Quantidade', '$preco', now())";
         $conexao->query($sql);
     }
