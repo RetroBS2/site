@@ -3,7 +3,7 @@
 
   .conteudo{
     margin: 5rem;
-    max-width: 900rem;
+    max-width: 1000rem;
   }
 
   .titulocat{
@@ -16,12 +16,12 @@
   .lista{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: left;
   }
 
 
   .produto{
-      width: 22rem;
+      width: 21rem;
       border: 2px solid var(--dark);
       padding: 1rem;
       background-color: var(--dark);

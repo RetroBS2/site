@@ -13,6 +13,8 @@ session_start()
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/home.css">
+  
 </head>
 
 <body>
@@ -80,7 +82,52 @@ session_start()
       </ul>
     </div>
   </nav>
+  <main>
+  <h2>Seja Bem Vindo</h2>
+  <section class="about">
+  <div class="image">
+    <img src="img/banner3.png" alt="Foto do Restaurante">
+  </div>
+  <div class="text">
+    <h2>Sobre Nós</h2>
+    <p>Nosso restaurante italiano é uma mistura de tradição e inovação. Nós nos inspiramos na cozinha italiana clássica, mas também estamos sempre buscando novas maneiras de surpreender nossos clientes. Nosso ambiente acolhedor e nossa equipe amigável tornam o jantar em nosso restaurante uma experiência inesquecível.</p>
+  </div>
+</section>
 
+<section class="menu">
+  <h2>Menu</h2>
+  <p>Confira nosso menu de pratos italianos clássicos e novas criações:</p>
+  <ul>
+    <li>
+      <strong>Lasanha</strong>
+      <p>Uma deliciosa camada de massa fresca com carne moída, molho de tomate caseiro e queijo derretido por cima.</p>
+    </li>
+    <li>
+      <strong>Ravioli</strong>
+      <p>Deliciosos pastéis recheados com ricota, espinafre e temperos, servidos com molho de tomate caseiro.</p>
+    </li>
+    <li>
+      <strong>Risoto</strong>
+      <p>Um clássico italiano feito com arroz arbóreo cremoso, queijo parmesão e cogumelos frescos.</p>
+    </li>
+    <li>
+      <strong>Espaguete</strong>
+      <p>Uma massa longa e fina, servida com o molho de tomate mais saboroso que você já experimentou, e finalizado com queijo ralado.</p>
+    </li>
+    <li>
+      <strong>Arancino</strong>
+      <p>Bolinhos de arroz crocantes e dourados, recheados com queijo mozzarella derretido e servidos com molho marinara.</p>
+    </li>
+  </ul>
+  
+</section>
+<div class="gallery">
+    <img src="img/banner1.png" alt="Imagem 1">
+    <img src="img/banner2.png" alt="Imagem 2">
+    <img src="img/banner3.png" alt="Imagem 3">
+  </div>
+
+  </main>
   <footer>
     <div class="container-fluid fixed-bottom rodape">
       <div class="row">
@@ -90,7 +137,7 @@ session_start()
       </div>
     </div>
   </footer>
-
+  <script src="js/script.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
