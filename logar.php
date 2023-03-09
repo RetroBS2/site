@@ -8,8 +8,8 @@ if((isset($_SESSION['email']) == true) and (isset($_SESSION['senha']) == true))
 if (!isset($_SESSION['email'])) {
   if (isset($_POST['submit']) && !empty($_POST['email'] && !empty($_POST['senha']))) {
     if (isset($_POST['submit'])) {
-      $email = $_POST['email'];
-      $senha = $_POST['senha'];
+      $email = addslashes($_POST['email']);
+      $senha = addslashes($_POST['senha']);
 
       $sql = "SELECT * FROM usuario where email='$email' and senha='$senha'";
       $result = $conexao->query($sql);
@@ -34,4 +34,3 @@ if (!isset($_SESSION['email'])) {
     }
   }
 }
-?>
